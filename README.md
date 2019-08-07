@@ -10,7 +10,7 @@ O objetivo desse teste é avaliar sua proficiência em algumas áreas chaves do 
 Tentamos estruturar um teste pra você sentir um gostinho da temática da Mob2con, que trabalha, principalmente, com o controle de **visitantes** para **redes varejistas**. Mas, não se preocupe, o cenário do teste é só um recorde da realidade, sem muita aplicação na solução final. Ou seja, não utilizaremos seu código internamente.
 
 ## Antes de começar...
-Que sua aplicação deve utilizar:
+Tenha em mente que sua aplicação deve utilizar:
 * JWT para autenticação
 * Banco relacional, de preferência, postgres.
 
