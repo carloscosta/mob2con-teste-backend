@@ -11,11 +11,11 @@ Tentamos estruturar um teste pra você sentir um gostinho da temática da Mob2co
 
 ## As Histórias
 Tenha em mente somente o barramento de serviços, ok? Precisamos somente da API RESTful.
-1. Como administrador, preciso fazer o controle Redes Varejistas para dar entrada em novos clientes.
-2. Como administrador do sistema, preciso fazer o controle de usuários de cada rede para que mais pessoas utilizem o sistema.
+1. Como administrador, preciso fazer o controle (crud) Redes Varejistas para dar entrada em novos clientes.
+2. Como administrador do sistema, preciso fazer o controle (crud) de usuários de cada rede para que mais pessoas utilizem o sistema.
 2. Como usuário da rede, preciso me logar no sistema para fazer operações.
 3. Como usuário da rede, preciso me deslogar no sistema para impedir que outros se passem por mim.
-4. Como usuário da rede, preciso fazer o controle de visitantes a rede, para que possamos registrar suas entradas e saídas.
+4. Como usuário da rede, preciso fazer o controle (crud) de visitantes a rede, para que possamos registrar suas entradas e saídas.
 5. Como usuário externo, não autenticado, preciso do numero total de redes e seus visitantes. 
 
 ## Entidades
