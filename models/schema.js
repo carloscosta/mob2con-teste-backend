@@ -14,7 +14,6 @@ sequelize.authenticate().then(function(err) {
     process.exit(666);
 });
 
-
 var User = sequelize.define('User', {
     name: Sequelize.STRING,
     login: Sequelize.STRING,
@@ -32,12 +31,15 @@ var Visitor = sequelize.define('Visitor', {
     network: Sequelize.STRING
 });
 
+var Session = sequelize.define('Session', { 
+    token: Sequelize.STRING,
+    login: Sequelize.STRING
+});
 
 sequelize.sync({ force: true }).then(function(err) {
     console.log('It worked!');
     process.exit();
-}, function (err) {
+}, function(err) {
     console.log('An error occurred while creating the table:', err);
     process.exit(666);
 });
-

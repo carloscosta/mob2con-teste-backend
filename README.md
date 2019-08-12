@@ -18,7 +18,8 @@ na solução final.
 Esta aplicação utiliza:
 
 * JWT para autenticação
-* Banco de dados relacional, de preferência postgres. Mas portável para outros vendors
+* Banco de dados relacional, de preferência [PostgreSQL](https://customer.elephantsql.com/instance). 
+  Mas portável para outros vendors
 
 ## As Histórias
 

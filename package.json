@@ -4,7 +4,7 @@
   "description": "Olá avaliador! sou Carlos =)",
   "main": "index.js",
   "scripts": {
-    "restart:db": "node ./models/schema.js",
+    "restart:db": "node ./models/schema.js && node ./models/admin.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
