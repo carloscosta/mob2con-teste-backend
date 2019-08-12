@@ -1,6 +1,6 @@
 
 const Sequelize = require('sequelize');
-const UserModel = require('./models/users');
+const UserModel = require('./models/Users');
 const VisitorModel = require('./models/Visitors');
 const NetworkModel = require('./models/Networks');
 const SessionModel = require('./models/Sessions');
@@ -8,6 +8,7 @@ const SessionModel = require('./models/Sessions');
 const sequelize = new Sequelize('diwibodm', 'diwibodm', 'fiNTcjLX6Y_CaJHDjYWFAr0iF2O3mTvh', {
     host: "tuffi.db.elephantsql.com",
     dialect: "postgres",
+    logging: false,
     port:    5432
 });
 

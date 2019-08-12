@@ -15,9 +15,15 @@ let checkAdmin = function(req, res, next) {
         token = token.slice(7, token.length);
     }
 
+    if (token.startsWith('Token ')) {
+        // Remove Token from string
+        token = token.slice(6, token.length);
+    }
+
     if (token) {
         jwt.verify(token, adminSecret, (err, decoded) => {
             if (err) {
+                res.status(400);
                 return res.json({
                     success: false,
                     message: 'Token is not valid'
@@ -28,6 +34,7 @@ let checkAdmin = function(req, res, next) {
             }
         });
     } else {
+        res.status(400);
         return res.json({
             success: false,
             message: 'Auth token is not supplied'
@@ -44,21 +51,19 @@ let checkSession = function(req, res, next) {
         token = token.slice(7, token.length);
     }
 
+    if (token.startsWith('Token ')) {
+        // Remove Token from string
+        token = token.slice(6, token.length);
+    }
+
     // TODO: tokens of 24hrs should be checked for expiration
     if (token) {
-        Session.find({ where: { token: token } }).done(function (err, session) {
-            if (err) {
-                return res.json({
-                    success: false,
-                    message: 'Auth token is not supplied'
-                });
-            }
-            if (session) {
-                req.decoded = session;
-                next();
-            }
+        Session.findOne({ where: { token: token } }).then(function(session) {
+            req.decoded = session;
+            next();
         });
     } else {
+        res.status(400);
         return res.json({
             success: false,
             message: 'Auth token is not supplied'

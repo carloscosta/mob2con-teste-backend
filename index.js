@@ -1,6 +1,4 @@
 
-// unit test https://mherman.org/blog/testing-node-and-express/#unit-tests
-
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -25,46 +23,49 @@ app.post('/api/users', checkAdmin, function(req, res) {
 });
 
 // update a given user
-app.put('/api/users/:login', ceckAdmin, function(req, res) {
-    User.find({ where: { login: req.param.login } }).on('success', function (user) {
-        // Check if record exists in db
-        if (user) {
-            user.update(req.body).success(function (res) {
-                res.json(user);
-            });
-        }
+app.put('/api/users/:login', checkAdmin, function(req, res) {
+    User.update(req.body, { where: { login: req.body.login }}).then(function() {
+        res.status(204);
+        res.end();
     });
 });
 
 // get all users or get a given users
 app.get('/api/users/:login?', checkAdmin, function(req, res) {
     if (req.param.login)
-        User.find({ where: { login: req.param.login } }).then(user => res.json(user));
+        User.findOne({ login: req.param.login }).then(function(user) {
+            res.json(user);
+            res.end();
+        });
     else
-        User.findAll().then(users => res.json(users));
+        User.findAll().then(function(users) { 
+            res.json(users);
+            res.end();
+        });
 });
 
 // delete a given user
 app.delete('/api/users/:login', checkAdmin, function(req, res) {
-    User.destroy({ where: { login: req.param.login } }).on('success', function () {
-        res.json("{ \"msg\": \"success\" }");
+    User.destroy({ where: { login: req.body.login } }).then(function () {
+        res.status(204);
+        res.end();
     });
 });
 
-
 // create a network 
 app.post('/api/networks', checkAdmin, function(req, res) {
-    Network.create(req.body).then(user => res.json(user));
+    Network.findOrCreate( {where: req.body }).spread(function(net, created) { 
+        res.status(201);
+        res.end();
+    });
 });
 
 // update a given network 
 app.put('/api/networks/:cnpj', checkAdmin, function(req, res) {
-    Network.find({ where: { cnpj: req.param.cnpj } }).on('success', function (net) {
-        // Check if record exists in db
+    Network.update(req.body, { where: { cnpj: req.body.cnpj }}).then(function (net) {
         if (net) {
-            net.update(req.body).success(function (res) {
-                res.json(net);
-            });
+            res.status(204);
+            res.end();
         }
     });
 });
@@ -72,55 +73,76 @@ app.put('/api/networks/:cnpj', checkAdmin, function(req, res) {
 // get all Networks or get a given network 
 app.get('/api/networks/:cnpj?', checkAdmin, function(req, res) {
     if (req.params.cnpj)
-        Network.find({ where: { cnpj: req.param.cnpj } }).then(net => res.json(net));
+        Network.findOne({ cnpj: req.param.cnpj }).then(function(net) { 
+            res.json(net);
+            res.end();
+        });
     else
-        Network.findAll().then(users => res.json(users));
+        Network.findAll().then(function(net) {
+            res.json(net);
+            res.end();
+        });
 });
 
 // delete a given network 
 app.delete('/api/networks/:cnpj', checkAdmin, function(req, res) {
-    Network.destroy({ where: { cnpj: req.param.cnpj } }).on('success', function() {
-        res.json("{ \"msg\": \"success\" }");
+    Network.destroy({ where: { cnpj: req.body.cnpj } }).then(function() {
+        res.status(204);
+        res.end();
     });
 });
 
 
 // create a visitor 
 app.post('/api/visitors', checkSession, function(req, res) {
-    Visitors.create(req.body).then(visitor => res.json(visitor));
+    Visitors.create(req.body).then(function(visitor) { 
+        res.status(201);
+    });
 });
 
 // update a given visitor 
 app.put('/api/visitors/:name', checkSession, function(req, res) {
-    Visitor.find({ where: { name: req.param.name } }).on('success', function(visitor) {
+    Visitor.find({ where: { name: req.param.name } }).then('success', function(visitor) {
         // Check if record exists in db
         if (visitor) {
             visitor.update(req.body).success(function (res) {
-                res.json(visitor);
+                res.status(204);
             });
         }
     });
 });
 
 // get all visitors or get a given visitor 
-app.get('/api/visitors/:name?', checkSession, function(req, res) {
-    if (req.params.name)
-        Visitors.find({ where: { name: req.param.name } }).then(visit => res.json(visit));
+app.get('/api/visitors/:login?', checkSession, function(req, res) {
+    if (req.body.login)
+        Visitors.find({ where: { name: req.body.login } }).then(function(visit) { 
+            res.status(200);
+            res.json(visit);
+        });
     else
-        Visitor.findAll().then(users => res.json(users));
+        Visitor.findAll().then(function(visit) { 
+            res.status(200);
+            res.json(visit)
+        });
 });
 
 // delete a given visitor
 app.delete('/api/visitors/:name', checkSession, function(req, res) {
-    Visitor.destroy({ where: { name: req.param.name } }).on('success', function() {
-        res.json("{ \"msg\": \"success\" }");
+    Visitor.destroy({ where: { name: req.param.name } }).then(function() {
+        res.status(204);
+        res.end();
     });
+});
+
+// no root for you
+app.get('/', function(req,res) {
+    res.redirect(req.baseUrl + '/api/');
 });
 
 // get total of networks and its visitors
 app.get('/api/', function(req, res) {
     var total = {};
-    Visitor.findAll().on('success', function(visitor) {
+    Visitor.findAll().then(function(visitor) {
         // Check if record exists in db
         if (visitor) {
             if (total.hasOwnProperty(visitor.network)) {
@@ -130,34 +152,63 @@ app.get('/api/', function(req, res) {
             }
         }
     });
+    res.status(200);
     res.json(total);
 });
 
 // user login
-app.post(t'/api/login/', function(req, res) {
+app.post('/api/login/', function(req, res) {
     let login = req.body.login || null;
     let password = req.body.password || null;
 
-    if (!login and !password)
+    if (!login && !password) {
+        res.status(400);
         res.json("{ \"msg\": \"error: no login or password\" }");
+    }
 
     var pass_token = jwt.sign(login, password);
 
-    User.find({ where: { login: login, password: pass_token } }).then(function() {
+    User.findOne({ where: { login: login, password: pass_token } }).then(function() {
         // TODO: run some random generator here, for session tokens
         var token = jwt.sign(login, "super-private-token-secret");
-        Session.create({ login: login, token: token }).then(session => res.json(session));
+        Session.create({ login: login, token: token }).then(function(session) {
+            res.status(201);
+            res.json(session)
+        });
     });
-
-    res.json("{ \"msg\": \"error: user not found\" }");
 });
 
 // user logout
-app.post(t'/api/logout/', function(req, res) {
-    Session.destroy({ where: { login: req.param.login } }).on('success', function() {
-        res.json("{ \"msg\": \"success\" }");
+app.post('/api/login/', function(req, res) {
+    let login = req.body.login || null;
+    let password = req.body.password || null;
+
+    if (!login && !password) {
+        res.status(400);
+        res.json("{ \"msg\": \"error: no login or password\" }");
+    }
+
+    var pass_token = jwt.sign(login, password);
+
+    Session.findOne({ where: { login: login, password: pass_token } }).then(function() {
+        Session.destroy({ where: { login: login, password: pass_token } }).then(function() {
+            res.status(201);
+            res.end();
+        });
     });
-    res.json("{ \"msg\": \"Error: session not found\" }");
+});
+
+// user logout
+app.post('/api/logout/', function(req, res) {
+    if (!req.body.login) { 
+        res.status(400);
+        res.json("{ \"msg\": \"Error: session not found\" }");
+    }
+
+    Session.destroy({ where: { login: req.body.login } }).then(function() {
+        res.status(204);
+        res.end();
+    });
 });
 
 
@@ -166,3 +217,4 @@ const port = 3000;
 app.listen(port, function() {
     console.log(`Running on http://localhost:${port}`);
 });
+    module.exports = app;

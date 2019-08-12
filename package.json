@@ -5,14 +5,18 @@
   "main": "index.js",
   "scripts": {
     "restart:db": "node ./models/schema.js && node ./models/admin.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --exit",
     "start": "node index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/carloscosta/mob2con-teste-backend"
   },
-  "keywords": ["node.js", "express", "RestAPI"],
+  "keywords": [
+    "node.js",
+    "express",
+    "RestAPI"
+  ],
   "author": "",
   "license": "GNU GPL 3.0 or later",
   "bugs": {
@@ -25,5 +29,10 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.12.1",
     "sequelize": "^5.13.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "supertest": "^4.0.2"
   }
 }
