@@ -15,22 +15,21 @@ na solução final.
 
 ## Antes de começar...
 
-Tenha em mente que minha aplicação utiliza:
+Esta aplicação utiliza:
 
 * JWT para autenticação
-* Banco de dados relacional, de preferência postgres. Mas portável para outros
-  vendors
+* Banco de dados relacional, de preferência postgres. Mas portável para outros vendors
 
 ## As Histórias
 
-Tenha em mente somente o barramento de serviços, ok? Precisamos somente da API RESTful.
+Tenha em mente somente o barramento de serviços, ok? Somente a API RESTful.
 
 1. Como administrador, preciso fazer o controle (crud) Redes Varejistas para dar entrada em novos clientes.
 2. Como administrador do sistema, preciso fazer o controle (crud) de usuários de cada rede para que mais pessoas utilizem o sistema.
-2. Como usuário da rede, preciso me logar no sistema para fazer operações.
-3. Como usuário da rede, preciso me deslogar no sistema para impedir que outros se passem por mim.
-4. Como usuário da rede, preciso fazer o controle (crud) de visitantes a rede, para que possamos registrar suas entradas e saídas.
-5. Como usuário externo, não autenticado, preciso do numero total de redes e seus visitantes. 
+3. Como usuário da rede, preciso me logar no sistema para fazer operações.
+4. Como usuário da rede, preciso me deslogar no sistema para impedir que outros se passem por mim.
+5. Como usuário da rede, preciso fazer o controle (crud) de visitantes a rede, para que possamos registrar suas entradas e saídas.
+6. Como usuário externo, não autenticado, preciso do numero total de redes e seus visitantes. 
 
 ## Entidades
 
@@ -57,8 +56,8 @@ Visitante
 * Controle de deploy e ci. Esse não é um item obrigatório, mas seria muito bacana você descrever seu processo. 
   Pontos extras para o uso de `Docker` e `Docker Compose`.
 
-## Quando terminar
+# Para executar 
 
-Faça o upload de seu codigo para uma conta publica do github, gitlab ou afim pra darmos uma olhada e te retornaremos.
-
-Muito Obrigado!
+    $ git clone https://github.com/carloscosta/mob2con-teste-backend
+    $ npm install
+    $ npm run restart:db 

@@ -4,8 +4,9 @@
   "description": "Olá avaliador! sou Carlos =)",
   "main": "index.js",
   "scripts": {
-    "pretest": "node ./models/schema.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "restart:db": "node ./models/schema.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,7 @@
   },
   "keywords": ["node.js", "express", "RestAPI"],
   "author": "",
-  "license": "GPL 3.0 or later",
+  "license": "GNU GPL 3.0 or later",
   "bugs": {
     "url": "https://github.com/carloscosta/mob2con-teste-backend/issues"
   },

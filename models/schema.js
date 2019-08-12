@@ -1,15 +1,17 @@
 
-const database = "postgres://diwibodm:fiNTcjLX6Y_CaJHDjYWFAr0iF2O3mTvh@tuffi.db.elephantsql.com:5432/diwibodm";
-const Sequelize = require('sequelize'), 
-    var sequelize = new Sequelize(database, 'diwibodm', 'fiNTcjLX6Y_CaJHDjYWFAr0iF2O3mTvh', {
-        dialect: "postgres",
-        port:    5432
-    });
+const Sequelize = require('sequelize'); 
+
+var sequelize = new Sequelize('diwibodm', 'diwibodm', 'fiNTcjLX6Y_CaJHDjYWFAr0iF2O3mTvh', {
+    host: "tuffi.db.elephantsql.com",
+    dialect: "postgres",
+    port:    5432
+});
 
 sequelize.authenticate().then(function(err) {
     console.log('Connection has been established successfully.');
 }, function (err) {
     console.log('Unable to connect to the database:', err);
+    process.exit(666);
 });
 
 
@@ -33,7 +35,9 @@ var Visitor = sequelize.define('Visitor', {
 
 sequelize.sync({ force: true }).then(function(err) {
     console.log('It worked!');
+    process.exit();
 }, function (err) {
     console.log('An error occurred while creating the table:', err);
+    process.exit(666);
 });
 
